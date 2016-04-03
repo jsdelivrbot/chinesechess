@@ -1,3 +1,12 @@
+exports.wait()
+require([
+    'Board',
+    'Chess',
+],(
+    Board,
+    Chess
+)=>{
+exports(Game)
 function Game(){
     this.lineWidth=1
     this.blockWidth=64
@@ -50,3 +59,4 @@ function Game(){
         this.div.appendChild(div)
     })
 }
+})
