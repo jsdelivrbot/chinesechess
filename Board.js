@@ -1,9 +1,10 @@
-function Board(){
+function Board(game){
     var board=this
-    this.lineWidth=1
-    this.blockWidth=64
-    this.chessWidth=64
-    this.chuHanWidth=48
+    this.game=game
+    this.lineWidth=this.game.lineWidth
+    this.blockWidth=this.game.blockWidth
+    this.chessWidth=this.game.chessWidth
+    this.chuHanWidth=this.game.chuHanWidth
     this.width=2+8*this.blockWidth+2
     this.height=2+9*this.blockWidth+2
     this.div=document.createElement('div')

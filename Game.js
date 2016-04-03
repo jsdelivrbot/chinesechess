@@ -1,9 +1,13 @@
 function Game(){
-    this.board=new Board
+    this.lineWidth=1
+    this.blockWidth=64
+    this.chessWidth=64
+    this.chuHanWidth=48
+    this.chessWidth=48
+    this.board=new Board(this)
     this.div=document.createElement('div')
     this.div.style.position='relative'
     this.div.appendChild(this.board.div)
-    this.chessWidth=48
     this.chesses=[
         new Chess(this,0,0),
         new Chess(this,0,0),
