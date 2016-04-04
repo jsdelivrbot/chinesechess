@@ -22,17 +22,32 @@ Chess.prototype.createDivBySize=function(){
             width=2+chess.game.chessWidth+2
         canvas.width=width
         canvas.height=width
+        context.beginPath()
+        context.fillStyle='white'
+        context.arc(width/2,width/2,chess.game.chessWidth/2,0,2*Math.PI)
+        context.fill()
         context.fillStyle=chess.color==0?'black':'red'
         context.strokeStyle=chess.color==0?'black':'red'
-        context.beginPath()
         context.arc(width/2,width/2,chess.game.chessWidth/2,0,2*Math.PI)
         context.stroke()
         context.font=width/2+'px sans-serif'
+        context.textAlign='center'
+        context.textBaseline='middle'
         context.fillText(
             textOfColorType[chess.color][chess.type],
-            width/4,
-            width/1.5
+            width/2,
+            width/2,
+            width
         )
         return canvas
     }
 }
+Chess.black=0
+Chess.red=1
+Chess.soldier=0
+Chess.cannon=1
+Chess.horse=2
+Chess.chariot=3
+Chess.elephant=4
+Chess.advisor=5
+Chess.general=6

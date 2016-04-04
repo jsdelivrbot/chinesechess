@@ -5,10 +5,9 @@ function Board(game){
     this.blockWidth=this.game.blockWidth
     this.chessWidth=this.game.chessWidth
     this.chuHanWidth=this.game.chuHanWidth
-    this.width=2+8*this.blockWidth+2
-    this.height=2+9*this.blockWidth+2
+    this.width=10*this.blockWidth
+    this.height=11*this.blockWidth
     this.div=document.createElement('div')
-    this.div.style.padding=this.chessWidth+'px'
     this.div.appendChild(canvas())
     function canvas(){
         var
@@ -20,32 +19,24 @@ function Board(game){
         return canvas
         function draw(){
             context.beginPath()
-            drawHalfBoardAt(2,2)
-            context.setTransform(
-                -1,0,0,-1,
-                2+8*board.blockWidth+2,
-                2+9*board.blockWidth+2
-            )
-            drawHalfBoardAt(2,2)
-            context.setTransform(1,0,0,1,0,0)
+            drawHalfBoardAt(board.blockWidth,board.blockWidth)
+            rotate()
+            drawHalfBoardAt(board.blockWidth,board.blockWidth)
+            rotate()
             context.stroke()
             context.font=board.chuHanWidth+'px sans-serif'
             context.fillText(
                 '楚   河',
-                2+1*board.blockWidth,
-                2+5*board.blockWidth-board.chuHanWidth/3.25
+                2+2*board.blockWidth,
+                2+6*board.blockWidth-board.chuHanWidth/3.25
             )
-            context.setTransform(
-                -1,0,0,-1,
-                2+8*board.blockWidth+2,
-                2+9*board.blockWidth+2
-            )
+            rotate()
             context.fillText(
                 '漢   界',
-                2+1*board.blockWidth,
-                2+5*board.blockWidth-board.chuHanWidth/3.25
+                2+2*board.blockWidth,
+                2+6*board.blockWidth-board.chuHanWidth/3.25
             )
-            context.setTransform(1,0,0,1,0,0)
+            rotate()
         }
         function drawHalfBoardAt(x,y){
             for(let i=0;i<5;i++){
@@ -71,6 +62,13 @@ function Board(game){
             context.lineTo(
                 x+3*board.blockWidth,
                 y+2*board.blockWidth
+            )
+        }
+        function rotate(){
+            context.transform(
+                -1,0,0,-1,
+                board.width,
+                board.height
             )
         }
     }
