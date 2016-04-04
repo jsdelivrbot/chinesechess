@@ -38,7 +38,10 @@ Chess.prototype.createDivBySize=function(){
         context.strokeStyle=chess.color==0?'black':'red'
         context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
         context.stroke()
-        context.font=width/1.6+'px sans-serif'
+        context.beginPath()
+        context.arc(width/2,width/2,chess.game.chessWidth/2-4-1,0,2*Math.PI)
+        context.stroke()
+        context.font=width/1.6+'px kai'
         context.textAlign='center'
         context.textBaseline='middle'
         context.fillText(

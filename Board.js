@@ -28,20 +28,30 @@ function Board(game){
             context.moveTo(9*board.blockWidth,5*board.blockWidth)
             context.lineTo(9*board.blockWidth,6*board.blockWidth)
             context.stroke()
-            context.font=board.chuHanWidth+'px sans-serif'
+            context.font=board.chuHanWidth+'px kai'
             context.textBaseline='middle'
             context.fillText(
-                '楚   河',
+                '楚  河',
                 2+2*board.blockWidth,
                 2+5.5*board.blockWidth
             )
+            writeRight('觀棋不語真君子')
             rotate()
             context.fillText(
-                '漢   界',
+                '漢  界',
                 2+2*board.blockWidth,
                 2+5.5*board.blockWidth
             )
+            writeRight('起手無回大丈夫')
             rotate()
+        }
+        function writeRight(s){
+            for(let i=0;i<s.length;i++)
+                context.fillText(
+                    s[i],
+                    2+9*board.blockWidth,
+                    2+(2+i)*board.blockWidth
+                )
         }
         function drawHalfBoardAt(x,y){
             for(let i=0;i<5;i++){

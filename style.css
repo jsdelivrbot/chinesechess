@@ -1,3 +1,7 @@
+@font-face{
+    font-family:'kai';
+    src:local('AR PL UKai CN');
+}
 div.chess{
     line-height:0;
 }
