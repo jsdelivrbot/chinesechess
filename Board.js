@@ -23,18 +23,23 @@ function Board(game){
             rotate()
             drawHalfBoardAt(board.blockWidth,board.blockWidth)
             rotate()
+            context.moveTo(board.blockWidth,5*board.blockWidth)
+            context.lineTo(board.blockWidth,6*board.blockWidth)
+            context.moveTo(9*board.blockWidth,5*board.blockWidth)
+            context.lineTo(9*board.blockWidth,6*board.blockWidth)
             context.stroke()
             context.font=board.chuHanWidth+'px sans-serif'
+            context.textBaseline='middle'
             context.fillText(
                 '楚   河',
                 2+2*board.blockWidth,
-                2+6*board.blockWidth-board.chuHanWidth/3.25
+                2+5.5*board.blockWidth
             )
             rotate()
             context.fillText(
                 '漢   界',
                 2+2*board.blockWidth,
-                2+6*board.blockWidth-board.chuHanWidth/3.25
+                2+5.5*board.blockWidth
             )
             rotate()
         }

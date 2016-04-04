@@ -2,7 +2,7 @@ exports.wait()
 require([
     'Board',
     'Chess',
-    'Vector',
+    'https://cdn.rawgit.com/anliting/Vector/fbf1661b2e5724eea40359a11197a873d918d3ae/Vector',
 ],(
     Board,
     Chess,
@@ -11,9 +11,9 @@ require([
 exports(Game)
 function Game(){
     this.lineWidth=1
-    this.blockWidth=64
-    this.chessWidth=64
-    this.chuHanWidth=48
+    this.blockWidth=48
+    this.chessWidth=this.blockWidth
+    this.chuHanWidth=0.75*this.blockWidth
     this.board=new Board(this)
     this.chesses=[
         new Chess(this,Chess.black,Chess.soldier),
@@ -83,21 +83,40 @@ function Game(){
         new Vector(5,9),
         new Vector(4,9),
     ]
-    this.div=document.createElement('div')
-    this.div.style.position='relative'
-    this.div.appendChild(this.board.div)
+}
+Game.prototype.createDiv=function(){
+    div=document.createElement('div')
+    div.style.position='relative'
+    div.appendChild(this.board.div)
     this.chesses.forEach((chess,i)=>{
         var
-            div=chess.createDivBySize(this.chessWidth)
-        div.style.position='absolute'
-        if(this.positionOfChesses[i]){
-            console.log(this.positionOfChesses[i])
-            div.style.top=
-                this.blockWidth*(1+(9-this.positionOfChesses[i].y)-0.5)+'px'
-            div.style.left=
-                this.blockWidth*(1+(8-this.positionOfChesses[i].x)-0.5)+'px'
+            chessDiv=chess.createDivBySize(this.chessWidth)
+        chessDiv.style.position='absolute'
+        chessDiv.style.left=
+            this.blockWidth*(1+(8-this.positionOfChesses[i].x)-0.5)+'px'
+        chessDiv.style.top=
+            this.blockWidth*(1+(9-this.positionOfChesses[i].y)-0.5)+'px'
+        if(16<=i)
+            chessDiv.style.WebkitTransform='rotate(180deg)'
+        setupDrag()
+        div.appendChild(chessDiv)
+        function setupDrag(){
+            var offset
+            chessDiv.addEventListener('mousedown',mousedown)
+            function mousedown(e){
+                offset=Vector.to(chessDiv,e)
+                addEventListener('mousemove',mousemove)
+                addEventListener('mouseup',mouseup)
+            }
+            function mousemove(e){
+                Vector.to(div,e).sub(offset).style(chessDiv)
+            }
+            function mouseup(){
+                removeEventListener('mousemove',mousemove)
+                removeEventListener('mouseup',mouseup)
+            }
         }
-        this.div.appendChild(div)
     })
+    return div
 }
 })

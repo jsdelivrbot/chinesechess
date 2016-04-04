@@ -1,3 +1,10 @@
+exports.wait()
+require([
+    'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
+],(
+    events
+)=>{
+exports(Chess)
 var textOfColorType=[
     '卒包馬車象士將',
     '兵炮傌俥相仕帥',
@@ -11,6 +18,7 @@ Chess.prototype.createDivBySize=function(){
     var
         chess=this,
         div=document.createElement('div')
+    div.className='chess'
     div.style.color=this.color==0?'black':'red'
     div.style.fontSize=0.5*Math.sqrt(2)*chess.game.chessWidth+'px'
     div.appendChild(canvas())
@@ -19,18 +27,18 @@ Chess.prototype.createDivBySize=function(){
         var
             canvas=document.createElement('canvas'),
             context=canvas.getContext('2d'),
-            width=2+chess.game.chessWidth+2
+            width=chess.game.chessWidth
         canvas.width=width
         canvas.height=width
         context.beginPath()
         context.fillStyle='white'
-        context.arc(width/2,width/2,chess.game.chessWidth/2,0,2*Math.PI)
+        context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
         context.fill()
         context.fillStyle=chess.color==0?'black':'red'
         context.strokeStyle=chess.color==0?'black':'red'
-        context.arc(width/2,width/2,chess.game.chessWidth/2,0,2*Math.PI)
+        context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
         context.stroke()
-        context.font=width/2+'px sans-serif'
+        context.font=width/1.6+'px sans-serif'
         context.textAlign='center'
         context.textBaseline='middle'
         context.fillText(
@@ -51,3 +59,4 @@ Chess.chariot=3
 Chess.elephant=4
 Chess.advisor=5
 Chess.general=6
+})
