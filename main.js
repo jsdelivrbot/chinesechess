@@ -4,6 +4,6 @@ require('Game',Game=>{
 var
     game=new Game,
     gameDiv=game.createDiv()
-div.style.display='inline-block'
+div.style.alignSelf='center'
 document.getElementById('mainDiv').appendChild(div)
 })

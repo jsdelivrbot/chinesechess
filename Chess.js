@@ -41,7 +41,7 @@ Chess.prototype.createDivBySize=function(){
         context.beginPath()
         context.arc(width/2,width/2,chess.game.chessWidth/2-4-1,0,2*Math.PI)
         context.stroke()
-        context.font=width/1.6+'px kai'
+        context.font=`bold ${width/1.6}px kai`
         context.textAlign='center'
         context.textBaseline='middle'
         context.fillText(

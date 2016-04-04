@@ -13,7 +13,6 @@ function Game(){
     this.lineWidth=1
     this.blockWidth=48
     this.chessWidth=this.blockWidth
-    this.chuHanWidth=0.75*this.blockWidth
     this.board=new Board(this)
     this.chesses=[
         new Chess(this,Chess.black,Chess.soldier),
