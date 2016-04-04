@@ -1,3 +1,4 @@
+require.css('style.css')
 require.css('main.css')
 require('Game',Game=>{
 var
