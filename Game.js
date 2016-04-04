@@ -104,6 +104,11 @@ Game.prototype.createDiv=function(){
             var offset
             chessDiv.addEventListener('mousedown',mousedown)
             function mousedown(e){
+                if(e.which!=1)
+                    return
+                e.stopPropagation()
+                e.preventDefault()
+                div.appendChild(chessDiv)
                 offset=Vector.to(chessDiv,e)
                 addEventListener('mousemove',mousemove)
                 addEventListener('mouseup',mouseup)
