@@ -34,6 +34,8 @@ Chess.prototype.createDivBySize=function(){
         context.fillStyle='white'
         context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
         context.fill()
+        context.beginPath()
+        context.fillStyle='white'
         context.fillStyle=chess.color==0?'black':'red'
         context.strokeStyle=chess.color==0?'black':'red'
         context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)

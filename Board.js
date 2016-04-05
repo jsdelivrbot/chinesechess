@@ -95,6 +95,39 @@ Board.prototype.createDiv=function(player){
                 x+3*board.blockWidth,
                 y+2*board.blockWidth
             )
+            drawRightCrossAt(x+0*board.blockWidth,y+3*board.blockWidth)
+            drawCrossAt(x+2*board.blockWidth,y+3*board.blockWidth)
+            drawCrossAt(x+4*board.blockWidth,y+3*board.blockWidth)
+            drawCrossAt(x+6*board.blockWidth,y+3*board.blockWidth)
+            drawLeftCrossAt(x+8*board.blockWidth,y+3*board.blockWidth)
+            drawCrossAt(x+1*board.blockWidth,y+2*board.blockWidth)
+            drawCrossAt(x+7*board.blockWidth,y+2*board.blockWidth)
+        }
+        function drawCrossAt(x,y){
+            drawCrossAtBy(x,y,[-1,1],[-1,1])
+        }
+        function drawLeftCrossAt(x,y){
+            drawCrossAtBy(x,y,[-1],[-1,1])
+        }
+        function drawRightCrossAt(x,y){
+            drawCrossAtBy(x,y,[1],[-1,1])
+        }
+        function drawCrossAtBy(x,y,a,b){
+            for(let i of a)
+                for(let j of b){
+                    context.moveTo(
+                        x+i*4,
+                        y+j*(4+0.2*board.blockWidth)
+                    )
+                    context.lineTo(
+                        x+i*4,
+                        y+j*4
+                    )
+                    context.lineTo(
+                        x+i*(4+0.2*board.blockWidth),
+                        y+j*4
+                    )
+                }
         }
         function rotate(){
             context.transform(
