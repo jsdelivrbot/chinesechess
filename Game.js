@@ -2,14 +2,17 @@ exports.wait()
 require([
     'Board',
     'Chess',
-    'https://cdn.rawgit.com/anliting/Vector/fbf1661b2e5724eea40359a11197a873d918d3ae/Vector',
+    'https://cdn.rawgit.com/anliting/Vector/008eefc93dfa768427d26b44c2856b80a02e7c3e/Vector',
+    'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
 ],(
     Board,
     Chess,
-    Vector
+    Vector,
+    events
 )=>{
 exports(Game)
 function Game(){
+    events.call(this)
     this.lineWidth=1
     this.blockWidth=48
     this.chessWidth=this.blockWidth
@@ -83,7 +86,12 @@ function Game(){
         new Vector(4,9),
     ]
 }
+Game.prototype=Object.create(events.prototype)
+Game.prototype.moveChess=function(i,v){
+    this.positionOfChesses[i]=v
+}
 Game.prototype.createDiv=function(){
+    var game=this
     var div=document.createElement('div')
     div.style.position='relative'
     div.appendChild(this.board.createDiv())
@@ -92,7 +100,7 @@ Game.prototype.createDiv=function(){
             chessDiv=chess.createDivBySize(this.chessWidth)
         chessDiv.style.position='absolute'
         chessDiv.style.left=
-            this.blockWidth*(1+(8-this.positionOfChesses[i].x)-0.5)+'px'
+            this.blockWidth*(1+this.positionOfChesses[i].x-0.5)+'px'
         chessDiv.style.top=
             this.blockWidth*(1+(9-this.positionOfChesses[i].y)-0.5)+'px'
         if(16<=i)
@@ -113,8 +121,12 @@ Game.prototype.createDiv=function(){
                 addEventListener('mouseup',mouseup)
             }
             function mousemove(e){
-                var client=Vector.to(div,e).sub(offset)
+                var client=Vector.to(div,e).sub(offset),v
+                v=client.div(game.blockWidth).sub(0.5)
+                v=new Vector(v.x,9-v.y)
+                game.moveChess(i,v)
                 client.style(chessDiv)
+                console.log(v)
             }
             function mouseup(){
                 removeEventListener('mousemove',mousemove)
