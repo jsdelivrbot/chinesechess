@@ -89,22 +89,41 @@ function Game(){
 Game.prototype=Object.create(events.prototype)
 Game.prototype.moveChess=function(i,v){
     this.positionOfChesses[i]=v
+    this.emit('chessmove',{
+        which:i
+    })
 }
-Game.prototype.createDiv=function(){
-    var game=this
-    var div=document.createElement('div')
+Game.prototype.createDiv=function(player){
+    var
+        game=this,
+        div=document.createElement('div'),
+        divOfChess=[]
     div.style.position='relative'
-    div.appendChild(this.board.createDiv())
+    div.appendChild(this.board.createDiv(player))
     this.chesses.forEach((chess,i)=>{
         var
             chessDiv=chess.createDivBySize(this.chessWidth)
+        divOfChess.push(chessDiv)
         chessDiv.style.position='absolute'
-        chessDiv.style.left=
-            this.blockWidth*(1+this.positionOfChesses[i].x-0.5)+'px'
-        chessDiv.style.top=
-            this.blockWidth*(1+(9-this.positionOfChesses[i].y)-0.5)+'px'
-        if(16<=i)
-            chessDiv.style.WebkitTransform='rotate(180deg)'
+        if(player==0){
+            chessDiv.style.left=this.blockWidth*(
+                1+this.positionOfChesses[i].x-0.5
+            )+'px'
+            chessDiv.style.top=this.blockWidth*(
+                1+(9-this.positionOfChesses[i].y)-0.5
+            )+'px'
+            if(16<=i)
+                chessDiv.style.WebkitTransform='rotate(180deg)'
+        }else{
+            chessDiv.style.left=this.blockWidth*(
+                1+(8-this.positionOfChesses[i].x)-0.5
+            )+'px'
+            chessDiv.style.top=this.blockWidth*(
+                1+this.positionOfChesses[i].y-0.5
+            )+'px'
+            if(i<16)
+                chessDiv.style.WebkitTransform='rotate(180deg)'
+        }
         setupDrag()
         div.appendChild(chessDiv)
         function setupDrag(){
@@ -115,7 +134,6 @@ Game.prototype.createDiv=function(){
                     return
                 e.stopPropagation()
                 e.preventDefault()
-                div.appendChild(chessDiv)
                 offset=Vector.to(chessDiv,e)
                 addEventListener('mousemove',mousemove)
                 addEventListener('mouseup',mouseup)
@@ -123,15 +141,33 @@ Game.prototype.createDiv=function(){
             function mousemove(e){
                 var client=Vector.to(div,e).sub(offset),v
                 v=client.div(game.blockWidth).sub(0.5)
-                v=new Vector(v.x,9-v.y)
+                if(player==0)
+                    v=new Vector(v.x,9-v.y)
+                else
+                    v=new Vector(8-v.x,v.y)
                 game.moveChess(i,v)
-                client.style(chessDiv)
-                console.log(v)
             }
             function mouseup(){
                 removeEventListener('mousemove',mousemove)
                 removeEventListener('mouseup',mouseup)
             }
+        }
+    })
+    game.on('chessmove',e=>{
+        var
+            i=e.which,
+            chessDiv=divOfChess[i]
+        div.appendChild(chessDiv)
+        if(player==0){
+            chessDiv.style.left=
+                this.blockWidth*(1+game.positionOfChesses[i].x-0.5)+'px'
+            chessDiv.style.top=
+                this.blockWidth*(1+(9-game.positionOfChesses[i].y)-0.5)+'px'
+        }else{
+            chessDiv.style.left=
+                this.blockWidth*(1+(8-game.positionOfChesses[i].x)-0.5)+'px'
+            chessDiv.style.top=
+                this.blockWidth*(1+game.positionOfChesses[i].y-0.5)+'px'
         }
     })
     return div

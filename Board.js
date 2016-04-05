@@ -8,10 +8,12 @@ function Board(game){
     this.width=10*this.blockWidth
     this.height=11*this.blockWidth
 }
-Board.prototype.createDiv=function(){
+Board.prototype.createDiv=function(player){
     var board=this
     var div=document.createElement('div')
     div.appendChild(canvas())
+    if(player==1)
+        div.style.webkitTransform='rotate(180deg)'
     return div
     function canvas(){
         var
