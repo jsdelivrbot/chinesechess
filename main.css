@@ -5,8 +5,13 @@ body{
     margin:0;
     height:100%;
 }
-#mainDiv{
-    height:100%;
-    display:flex;
-    justify-content:center;
+#left{
+    display:table-cell;
+    text-align:center;
+    vertical-align:middle;
+}
+#right{
+    display:table-cell;
+    text-align:center;
+    vertical-align:middle;
 }

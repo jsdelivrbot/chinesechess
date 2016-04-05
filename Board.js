@@ -7,8 +7,12 @@ function Board(game){
     this.chuHanWidth=this.game.chuHanWidth
     this.width=10*this.blockWidth
     this.height=11*this.blockWidth
-    this.div=document.createElement('div')
-    this.div.appendChild(canvas())
+}
+Board.prototype.createDiv=function(){
+    var board=this
+    var div=document.createElement('div')
+    div.appendChild(canvas())
+    return div
     function canvas(){
         var
             canvas=document.createElement('canvas'),

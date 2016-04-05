@@ -84,9 +84,9 @@ function Game(){
     ]
 }
 Game.prototype.createDiv=function(){
-    div=document.createElement('div')
+    var div=document.createElement('div')
     div.style.position='relative'
-    div.appendChild(this.board.div)
+    div.appendChild(this.board.createDiv())
     this.chesses.forEach((chess,i)=>{
         var
             chessDiv=chess.createDivBySize(this.chessWidth)
@@ -113,7 +113,8 @@ Game.prototype.createDiv=function(){
                 addEventListener('mouseup',mouseup)
             }
             function mousemove(e){
-                Vector.to(div,e).sub(offset).style(chessDiv)
+                var client=Vector.to(div,e).sub(offset)
+                client.style(chessDiv)
             }
             function mouseup(){
                 removeEventListener('mousemove',mousemove)
