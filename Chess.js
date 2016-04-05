@@ -30,19 +30,29 @@ Chess.prototype.createDivBySize=function(){
             width=chess.game.chessWidth
         canvas.width=width
         canvas.height=width
+        // start draw background
         context.beginPath()
         context.fillStyle='white'
         context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
         context.fill()
-        context.beginPath()
-        context.fillStyle='white'
+        // end draw background
+        // start draw border
         context.fillStyle=chess.color==0?'black':'red'
         context.strokeStyle=chess.color==0?'black':'red'
+        // start draw outer border
+        context.lineWidth=2
+        context.beginPath()
         context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
         context.stroke()
+        // end draw outer border
+        // start draw inner border
+        context.lineWidth=1
         context.beginPath()
         context.arc(width/2,width/2,chess.game.chessWidth/2-4-1,0,2*Math.PI)
         context.stroke()
+        // end draw inner border
+        // end draw border
+        context.beginPath()
         context.font=`bold ${width/1.6}px kai`
         context.textAlign='center'
         context.textBaseline='middle'
