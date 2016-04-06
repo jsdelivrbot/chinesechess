@@ -1,12 +1,12 @@
 exports.wait()
 require([
+    'Game.prototype.initGameState',
     'Board',
-    'Chess',
     'https://cdn.rawgit.com/anliting/Vector/008eefc93dfa768427d26b44c2856b80a02e7c3e/Vector',
     'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
 ],(
+    initGameState,
     Board,
-    Chess,
     Vector,
     events
 )=>{
@@ -17,76 +17,12 @@ function Game(){
     this.blockWidth=48
     this.chessWidth=this.blockWidth
     this.board=new Board(this)
-    this.chesses=[
-        new Chess(Chess.black,Chess.soldier),
-        new Chess(Chess.black,Chess.soldier),
-        new Chess(Chess.black,Chess.soldier),
-        new Chess(Chess.black,Chess.soldier),
-        new Chess(Chess.black,Chess.soldier),
-        new Chess(Chess.black,Chess.cannon),
-        new Chess(Chess.black,Chess.cannon),
-        new Chess(Chess.black,Chess.horse),
-        new Chess(Chess.black,Chess.horse),
-        new Chess(Chess.black,Chess.chariot),
-        new Chess(Chess.black,Chess.chariot),
-        new Chess(Chess.black,Chess.elephant),
-        new Chess(Chess.black,Chess.elephant),
-        new Chess(Chess.black,Chess.advisor),
-        new Chess(Chess.black,Chess.advisor),
-        new Chess(Chess.black,Chess.general),
-        new Chess(Chess.red,Chess.soldier),
-        new Chess(Chess.red,Chess.soldier),
-        new Chess(Chess.red,Chess.soldier),
-        new Chess(Chess.red,Chess.soldier),
-        new Chess(Chess.red,Chess.soldier),
-        new Chess(Chess.red,Chess.cannon),
-        new Chess(Chess.red,Chess.cannon),
-        new Chess(Chess.red,Chess.horse),
-        new Chess(Chess.red,Chess.horse),
-        new Chess(Chess.red,Chess.chariot),
-        new Chess(Chess.red,Chess.chariot),
-        new Chess(Chess.red,Chess.elephant),
-        new Chess(Chess.red,Chess.elephant),
-        new Chess(Chess.red,Chess.advisor),
-        new Chess(Chess.red,Chess.advisor),
-        new Chess(Chess.red,Chess.general),
-    ]
-    this.positionOfChesses=[
-        new Vector(0,3),
-        new Vector(2,3),
-        new Vector(4,3),
-        new Vector(6,3),
-        new Vector(8,3),
-        new Vector(1,2),
-        new Vector(7,2),
-        new Vector(1,0),
-        new Vector(7,0),
-        new Vector(0,0),
-        new Vector(8,0),
-        new Vector(2,0),
-        new Vector(6,0),
-        new Vector(3,0),
-        new Vector(5,0),
-        new Vector(4,0),
-        new Vector(0,6),
-        new Vector(2,6),
-        new Vector(4,6),
-        new Vector(6,6),
-        new Vector(8,6),
-        new Vector(1,7),
-        new Vector(7,7),
-        new Vector(1,9),
-        new Vector(7,9),
-        new Vector(0,9),
-        new Vector(8,9),
-        new Vector(2,9),
-        new Vector(6,9),
-        new Vector(3,9),
-        new Vector(5,9),
-        new Vector(4,9),
-    ]
+    this.initGameState
 }
 Game.prototype=Object.create(events.prototype)
+Object.defineProperty(Game.prototype,'initGameState',{
+    get:initGameState
+})
 Game.prototype.moveChess=function(i,v){
     this.positionOfChesses[i]=v
     this.emit('chessmove',{
