@@ -1,16 +1,16 @@
 function Board(game){
     var board=this
-    this.game=game
-    this.lineWidth=this.game.lineWidth
-    this.blockWidth=this.game.blockWidth
-    this.chessWidth=this.game.chessWidth
-    this.chuHanWidth=this.game.chuHanWidth
+    this.lineWidth=game.lineWidth
+    this.blockWidth=game.blockWidth
+    this.chessWidth=game.chessWidth
+    this.chuHanWidth=game.chuHanWidth
     this.width=10*this.blockWidth
     this.height=11*this.blockWidth
 }
 Board.prototype.createDiv=function(player){
-    var board=this
-    var div=document.createElement('div')
+    var
+        board=this,
+        div=document.createElement('div')
     div.appendChild(canvas())
     if(player==1)
         div.style.webkitTransform='rotate(180deg)'

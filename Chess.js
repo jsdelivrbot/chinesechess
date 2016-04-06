@@ -1,39 +1,31 @@
-exports.wait()
-require([
-    'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
-],(
-    events
-)=>{
-exports(Chess)
 var textOfColorType=[
     '卒包馬車象士將',
     '兵炮傌俥相仕帥',
 ]
-function Chess(game,color,type){
-    this.game=game
+function Chess(color,type){
     this.color=color
     this.type=type
 }
-Chess.prototype.createDivBySize=function(){
+Chess.prototype.createDivBySize=function(size){
     var
         chess=this,
         div=document.createElement('div')
     div.className='chess'
     div.style.color=this.color==0?'black':'red'
-    div.style.fontSize=0.5*Math.sqrt(2)*chess.game.chessWidth+'px'
+    div.style.fontSize=0.5*Math.sqrt(2)*size+'px'
     div.appendChild(canvas())
     return div
     function canvas(){
         var
             canvas=document.createElement('canvas'),
             context=canvas.getContext('2d'),
-            width=chess.game.chessWidth
+            width=size
         canvas.width=width
         canvas.height=width
         // start draw background
         context.beginPath()
         context.fillStyle='white'
-        context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
+        context.arc(width/2,width/2,size/2-1,0,2*Math.PI)
         context.fill()
         // end draw background
         // start draw border
@@ -42,13 +34,13 @@ Chess.prototype.createDivBySize=function(){
         // start draw outer border
         context.lineWidth=2
         context.beginPath()
-        context.arc(width/2,width/2,chess.game.chessWidth/2-1,0,2*Math.PI)
+        context.arc(width/2,width/2,size/2-1,0,2*Math.PI)
         context.stroke()
         // end draw outer border
         // start draw inner border
         context.lineWidth=1
         context.beginPath()
-        context.arc(width/2,width/2,chess.game.chessWidth/2-4-1,0,2*Math.PI)
+        context.arc(width/2,width/2,size/2-4-1,0,2*Math.PI)
         context.stroke()
         // end draw inner border
         // end draw border
@@ -74,4 +66,3 @@ Chess.chariot=3
 Chess.elephant=4
 Chess.advisor=5
 Chess.general=6
-})
