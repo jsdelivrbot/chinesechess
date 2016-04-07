@@ -107,7 +107,8 @@ Game.prototype.createDiv=function(player){
         var
             i=e.which,
             chessDiv=divOfChess[i]
-        div.appendChild(chessDiv)
+        if(div.lastChild!=chessDiv)
+            div.appendChild(chessDiv)
         board.chessViewingVectorOfSize(
             this.positionOfChesses[i],
             this.size
