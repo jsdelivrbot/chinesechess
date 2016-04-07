@@ -1,12 +1,12 @@
 exports.wait()
 require([
     'Game.prototype.initGameState',
-    'Board',
+    'board',
     'https://cdn.rawgit.com/anliting/Vector/008eefc93dfa768427d26b44c2856b80a02e7c3e/Vector',
     'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
 ],(
     initGameState,
-    Board,
+    board,
     Vector,
     events
 )=>{
@@ -16,7 +16,6 @@ function Game(){
     this.lineWidth=1
     this.blockWidth=48
     this.chessWidth=this.blockWidth
-    this.board=new Board(this)
     this.initGameState
 }
 Game.prototype=Object.create(events.prototype)
@@ -35,7 +34,7 @@ Game.prototype.createDiv=function(player){
         div=document.createElement('div'),
         divOfChess=[]
     div.style.position='relative'
-    div.appendChild(this.board.createDiv(player))
+    div.appendChild(board.createDivByPlayerSize(player,this.blockWidth))
     this.chesses.forEach((chess,i)=>{
         var
             chessDiv=chess.createDivBySize(this.chessWidth)
@@ -63,8 +62,9 @@ Game.prototype.createDiv=function(player){
         setupDrag()
         div.appendChild(chessDiv)
         function setupDrag(){
-            var offset
+            var chessId=i,offset
             chessDiv.addEventListener('mousedown',mousedown)
+            chessDiv.addEventListener('touchstart',touchstart)
             function mousedown(e){
                 if(e.which!=1)
                     return
@@ -75,17 +75,44 @@ Game.prototype.createDiv=function(player){
                 addEventListener('mouseup',mouseup)
             }
             function mousemove(e){
-                var client=Vector.to(div,e).sub(offset),v
+                e.stopPropagation()
+                e.preventDefault()
+                moveChess(e)
+            }
+            function mouseup(e){
+                e.stopPropagation()
+                e.preventDefault()
+                removeEventListener('mousemove',mousemove)
+                removeEventListener('mouseup',mouseup)
+            }
+            function touchstart(e){
+                e.stopPropagation()
+                e.preventDefault()
+                for(let i=0;i<e.changedTouches.length;i++)
+                    offset=Vector.to(chessDiv,e.changedTouches[i])
+                addEventListener('touchmove',touchmove)
+                addEventListener('touchend',touchend)
+            }
+            function touchmove(e){
+                e.stopPropagation()
+                e.preventDefault()
+                for(let i=0;i<e.changedTouches.length;i++)
+                    moveChess(e.changedTouches[i])
+            }
+            function touchend(e){
+                e.stopPropagation()
+                e.preventDefault()
+                removeEventListener('touchmove',touchmove)
+                removeEventListener('touchend',touchend)
+            }
+            function moveChess(event){
+                let client=Vector.to(div,event).sub(offset),v
                 v=client.div(game.blockWidth).sub(0.5)
                 if(player==0)
                     v=new Vector(v.x,9-v.y)
                 else
                     v=new Vector(8-v.x,v.y)
-                game.moveChess(i,v)
-            }
-            function mouseup(){
-                removeEventListener('mousemove',mousemove)
-                removeEventListener('mouseup',mouseup)
+                game.moveChess(chessId,v)
             }
         }
     })
