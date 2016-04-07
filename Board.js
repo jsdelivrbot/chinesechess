@@ -1,10 +1,17 @@
-var board=new Board
-function Board(){
+exports.wait()
+require([
+    'https://cdn.rawgit.com/anliting/Vector/008eefc93dfa768427d26b44c2856b80a02e7c3e/Vector',
+],(
+    Vector
+)=>{
+exports(Board)
+function Board(player){
+    this.player=player
 }
-Board.prototype.createDivByPlayerSize=function(player,size){
+Board.prototype.createDivBySize=function(size){
     var div=document.createElement('div')
     div.appendChild(canvas())
-    if(player==1)
+    if(this.player==1)
         div.style.webkitTransform='rotate(180deg)'
     return div
     function canvas(){
@@ -142,3 +149,32 @@ Board.prototype.createDivByPlayerSize=function(player,size){
         }
     }
 }
+Board.prototype.chessViewingVectorOfSize=function(v,size){
+    if(this.player==0)
+        v=new Vector(
+            v.x,
+            9-v.y
+        )
+    else
+        v=new Vector(
+            8-v.x,
+            v.y
+        )
+    v=v.add(1-0.5).mul(size)
+    return v
+}
+Board.prototype.chessVectorOfSize=function(v,size){
+    v=v.div(size).sub(1-0.5)
+    if(this.player==0)
+        v=new Vector(
+            v.x,
+            9-v.y
+        )
+    else
+        v=new Vector(
+            8-v.x,
+            v.y
+        )
+    return v
+}
+})
