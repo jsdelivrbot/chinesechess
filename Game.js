@@ -2,7 +2,7 @@ exports.wait()
 require([
     'Game.prototype.initGameState',
     'Board',
-    'https://cdn.rawgit.com/anliting/Vector/008eefc93dfa768427d26b44c2856b80a02e7c3e/Vector',
+    'https://cdn.rawgit.com/anliting/Vector/dad78878926d7445f82acba15056e19e379d61ca/Vector',
     'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
 ],(
     initGameState,
@@ -53,7 +53,9 @@ Game.prototype.createDiv=function(player){
             chessDiv.addEventListener('mousedown',mousedown)
             chessDiv.addEventListener('touchstart',touchstart)
             function mousedown(e){
-                if(e.which!=1)
+                if(e.which!=1||game.size/2<Vector.page(e).to(
+                    Vector.page(chessDiv).add(new Vector(game.size/2))
+                ).abs)
                     return
                 e.stopPropagation()
                 e.preventDefault()
@@ -75,18 +77,21 @@ Game.prototype.createDiv=function(player){
                 removeEventListener('mouseup',mouseup)
             }
             function touchstart(e){
+                let touch=e.changedTouches[0]
+                if(game.size/2<Vector.page(touch).to(
+                    Vector.page(chessDiv).add(new Vector(game.size/2))
+                ).abs)
+                    return
                 e.stopPropagation()
                 e.preventDefault()
-                for(let i=0;i<e.changedTouches.length;i++)
-                    offset=Vector.to(chessDiv,e.changedTouches[i])
+                offset=Vector.to(chessDiv,touch)
                 addEventListener('touchmove',touchmove)
                 addEventListener('touchend',touchend)
             }
             function touchmove(e){
                 e.stopPropagation()
                 e.preventDefault()
-                for(let i=0;i<e.changedTouches.length;i++)
-                    moveChess(e.changedTouches[i])
+                moveChess(e.changedTouches[0])
             }
             function touchend(e){
                 e.stopPropagation()
