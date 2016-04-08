@@ -1,11 +1,20 @@
+exports.wait()
+require([
+    'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
+],(
+    events
+)=>{
+exports(Chess)
 var textOfColorType=[
     '卒包馬車象士將',
     '兵炮傌俥相仕帥',
 ]
 function Chess(color,type){
+    events.call(this)
     this.color=color
     this.type=type
 }
+Chess.prototype=Object.create(events.prototype)
 Chess.prototype.createDivBySize=function(size){
     var
         chess=this,
@@ -66,3 +75,4 @@ Chess.chariot=3
 Chess.elephant=4
 Chess.advisor=5
 Chess.general=6
+})

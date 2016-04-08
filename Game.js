@@ -23,10 +23,7 @@ Object.defineProperty(Game.prototype,'initGameState',{
     get:initGameState
 })
 Game.prototype.moveChess=function(i,v){
-    this.positionOfChesses[i]=v
-    this.emit('chessmove',{
-        which:i
-    })
+    this.chesses[i].position=v
 }
 Game.prototype.createDiv=function(player){
     var
@@ -44,7 +41,7 @@ Game.prototype.createDiv=function(player){
         divOfChess.push(chessDiv)
         chessDiv.style.position='absolute'
         board.chessViewingVectorOfSize(
-            this.positionOfChesses[i],
+            this.chesses[i].position,
             this.size
         ).style(chessDiv)
         if(player==0?16<=i:i<16)
@@ -52,7 +49,7 @@ Game.prototype.createDiv=function(player){
         setupDrag()
         div.appendChild(chessDiv)
         function setupDrag(){
-            var chessId=i,offset
+            var offset
             chessDiv.addEventListener('mousedown',mousedown)
             chessDiv.addEventListener('touchstart',touchstart)
             function mousedown(e){
@@ -60,6 +57,8 @@ Game.prototype.createDiv=function(player){
                     return
                 e.stopPropagation()
                 e.preventDefault()
+                if(div.lastChild!=chessDiv)
+                    div.appendChild(chessDiv)
                 offset=Vector.to(chessDiv,e)
                 addEventListener('mousemove',mousemove)
                 addEventListener('mouseup',mouseup)
@@ -96,23 +95,20 @@ Game.prototype.createDiv=function(player){
                 removeEventListener('touchend',touchend)
             }
             function moveChess(event){
-                game.moveChess(chessId,board.chessVectorOfSize(
+                chess.position=board.chessVectorOfSize(
                     Vector.to(div,event).sub(offset),
                     game.size
-                ))
+                )
             }
         }
-    })
-    this.on('chessmove',e=>{
-        var
-            i=e.which,
-            chessDiv=divOfChess[i]
-        if(div.lastChild!=chessDiv)
-            div.appendChild(chessDiv)
-        board.chessViewingVectorOfSize(
-            this.positionOfChesses[i],
-            this.size
-        ).style(chessDiv)
+        chess.on('move',()=>{
+            if(div.lastChild!=chessDiv)
+                div.appendChild(chessDiv)
+            board.chessViewingVectorOfSize(
+                chess.position,
+                game.size
+            ).style(chessDiv)
+        })
     })
     return div
 }

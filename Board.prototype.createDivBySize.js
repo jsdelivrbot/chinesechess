@@ -1,8 +1,10 @@
 exports(function createDivBySize(size){
-    var div=document.createElement('div')
-    div.appendChild(canvas())
+    var
+        div=document.createElement('div'),
+        canvas=canvas()
     if(this.player==1)
-        div.style.webkitTransform='rotate(180deg)'
+        canvas.style.webkitTransform='rotate(180deg)'
+    div.appendChild(canvas)
     return div
     function canvas(){
         var
@@ -12,13 +14,9 @@ exports(function createDivBySize(size){
             height=11*size
         canvas.width=width
         canvas.height=height
-        draw()
+        strokeBoardGrid()
+        fillText()
         return canvas
-        // level 3
-        function draw(){
-            strokeBoardGrid()
-            fillText()
-        }
         // level 2
         function strokeBoardGrid(){
             context.beginPath()
@@ -31,30 +29,16 @@ exports(function createDivBySize(size){
             context.moveTo(9*size,5*size)
             context.lineTo(9*size,6*size)
             context.stroke()
-            context.strokeRect(
-                size-4,
-                size-4,
-                8*size+8,
-                9*size+8
-            )
+            context.strokeRect(size-4,size-4,4+8*size+4,4+9*size+4)
         }
         function fillText(){
             context.font=`bold ${0.6*size}px kai`
             context.textBaseline='middle'
-            context.fillText(
-                '楚  河',
-                2+2*size,
-                2+5.5*size
-            )
-            rotate()
-            context.fillText(
-                '漢  界',
-                2+2*size,
-                2+5.5*size
-            )
-            rotate()
+            context.textAlign='center'
+            context.fillText('楚  河',2+3*size,2+5.5*size)
             writeRight('觀棋不語真君子')
             rotate()
+            context.fillText('漢  界',2+3*size,2+5.5*size)
             writeRight('起手無回大丈夫')
             rotate()
         }
@@ -62,28 +46,16 @@ exports(function createDivBySize(size){
         function drawHalfBoardAt(x,y){
             for(let i=0;i<5;i++){
                 context.moveTo(x,y+i*size)
-                context.lineTo(
-                    x+8*size,
-                    y+i*size
-                )
+                context.lineTo(x+8*size,y+i*size)
             }
             for(let i=0;i<9;i++){
                 context.moveTo(x+i*size,y)
-                context.lineTo(
-                    x+i*size,
-                    y+4*size
-                )
+                context.lineTo(x+i*size,y+4*size)
             }
             context.moveTo(x+3*size,y)
-            context.lineTo(
-                x+5*size,
-                y+2*size
-            )
+            context.lineTo(x+5*size,y+2*size)
             context.moveTo(x+5*size,y)
-            context.lineTo(
-                x+3*size,
-                y+2*size
-            )
+            context.lineTo(x+3*size,y+2*size)
             drawRightCrossAt(x+0*size,y+3*size)
             drawCrossAt(x+2*size,y+3*size)
             drawCrossAt(x+4*size,y+3*size)
@@ -114,26 +86,13 @@ exports(function createDivBySize(size){
         }
         function drawCrossAtBy(x,y,a,b){
             for(let i of a)for(let j of b){
-                context.moveTo(
-                    x+i*4,
-                    y+j*(4+0.2*size)
-                )
-                context.lineTo(
-                    x+i*4,
-                    y+j*4
-                )
-                context.lineTo(
-                    x+i*(4+0.2*size),
-                    y+j*4
-                )
+                context.moveTo(x+i*4,y+j*(4+0.2*size))
+                context.lineTo(x+i*4,y+j*4)
+                context.lineTo(x+i*(4+0.2*size),y+j*4)
             }
         }
         function rotate(){
-            context.transform(
-                -1,0,0,-1,
-                width,
-                height
-            )
+            context.transform(-1,0,0,-1,width,height)
         }
     }
 })
