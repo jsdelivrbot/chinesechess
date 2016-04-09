@@ -1,16 +1,4 @@
-html{
-    height:100%;
-}
-body{
-    margin:0;
-    height:100%;
-}
-#left{
-    display:table-cell;
-    text-align:center;
-    vertical-align:middle;
-}
-#right{
+#left,#right{
     display:table-cell;
     text-align:center;
     vertical-align:middle;

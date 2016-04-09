@@ -10,4 +10,5 @@ document.getElementById('left').appendChild(gameDiv)
 gameDiv=game.createDiv(1)
 gameDiv.style.display='inline-block'
 document.getElementById('right').appendChild(gameDiv)
+document.getElementById('toolbar').appendChild(game.createSettingsA())
 })

@@ -2,11 +2,13 @@ exports.wait()
 require([
     'Game.prototype.initGameState',
     'Board',
+    'Window',
     'https://cdn.rawgit.com/anliting/Vector/dad78878926d7445f82acba15056e19e379d61ca/Vector',
     'https://cdn.rawgit.com/anliting/require/068921387c07a17e36248c3823fec24c05d667f2/node/events',
 ],(
     initGameState,
     Board,
+    Window,
     Vector,
     events
 )=>{
@@ -17,14 +19,12 @@ function Game(){
     this.size=48
     this.blockWidth=this.size
     this.initGameState
+    this.useHelper=true
 }
 Game.prototype=Object.create(events.prototype)
 Object.defineProperty(Game.prototype,'initGameState',{
     get:initGameState
 })
-Game.prototype.moveChess=function(i,v){
-    this.chesses[i].position=v
-}
 Game.prototype.createDiv=function(player){
     var
         div=document.createElement('div'),
@@ -73,6 +73,11 @@ Game.prototype.createDiv=function(player){
             function mouseup(e){
                 e.stopPropagation()
                 e.preventDefault()
+                if(game.useHelper)
+                    chess.position=new Vector(
+                        Math.round(chess.position.x),
+                        Math.round(chess.position.y)
+                    )
                 removeEventListener('mousemove',mousemove)
                 removeEventListener('mouseup',mouseup)
             }
@@ -96,6 +101,11 @@ Game.prototype.createDiv=function(player){
             function touchend(e){
                 e.stopPropagation()
                 e.preventDefault()
+                if(game.useHelper)
+                    chess.position=new Vector(
+                        Math.round(chess.position.x),
+                        Math.round(chess.position.y)
+                    )
                 removeEventListener('touchmove',touchmove)
                 removeEventListener('touchend',touchend)
             }
@@ -116,5 +126,15 @@ Game.prototype.createDiv=function(player){
         })
     })
     return div
+}
+Game.prototype.createSettingsA=function(player){
+    var a=document.createElement('a')
+    a.href='javascript:'
+    a.textContent='Settings'
+    a.onclick=()=>{
+        var window=new Window
+        document.body.appendChild(window.div)
+    }
+    return a
 }
 })
