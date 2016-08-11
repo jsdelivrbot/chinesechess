@@ -4,6 +4,7 @@ exports(function createDivBySize(size){
         canvas=canvas()
     if(this.player==1)
         canvas.style.webkitTransform='rotate(180deg)'
+    div.style.backgroundColor='BurlyWood'
     div.appendChild(canvas)
     return div
     function canvas(){
